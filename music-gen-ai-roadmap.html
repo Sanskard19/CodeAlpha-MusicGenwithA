@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Music Generation AI — Project Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root,[data-theme="light"]{
+  --color-bg:#f7f6f2;--color-surface:#f9f8f5;--color-surface-2:#fbfbf9;
+  --color-surface-offset:#f0ede8;--color-divider:#dcd9d5;--color-border:#d4d1ca;
+  --color-text:#1a1814;--color-text-muted:#6b6a65;--color-text-faint:#ababab;
+  --color-primary:#7c3aed;--color-primary-hover:#6d28d9;--color-primary-active:#5b21b6;
+  --color-primary-highlight:#ede9fe;
+  --color-accent:#f59e0b;--color-accent-hover:#d97706;
+  --color-success:#059669;--color-error:#dc2626;
+  --color-step1:#7c3aed;--color-step2:#2563eb;--color-step3:#059669;
+  --color-step4:#dc2626;--color-step5:#d97706;--color-step6:#db2777;
+  --color-step7:#7c3aed;--color-step8:#0891b2;
+  --radius-sm:0.375rem;--radius-md:0.5rem;--radius-lg:0.75rem;--radius-xl:1rem;--radius-full:9999px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,0.06);--shadow-md:0 4px 12px rgba(0,0,0,0.08);--shadow-lg:0 12px 32px rgba(0,0,0,0.12);
+  --space-1:0.25rem;--space-2:0.5rem;--space-3:0.75rem;--space-4:1rem;--space-5:1.25rem;
+  --space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;--space-12:3rem;--space-16:4rem;--space-20:5rem;
+  --text-xs:clamp(0.75rem,0.7rem + 0.25vw,0.875rem);--text-sm:clamp(0.875rem,0.8rem + 0.35vw,1rem);
+  --text-base:clamp(1rem,0.95rem + 0.25vw,1.125rem);--text-lg:clamp(1.125rem,1rem + 0.75vw,1.5rem);
+  --text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);--text-2xl:clamp(2rem,1.2rem + 2.5vw,3.5rem);
+  --text-hero:clamp(2.5rem,1rem + 5vw,5rem);
+  --font-body:'Space Grotesk',sans-serif;--font-mono:'Space Mono',monospace;
+  --transition:180ms cubic-bezier(0.16,1,0.3,1);
+}
+[data-theme="dark"]{
+  --color-bg:#0d0c0b;--color-surface:#131210;--color-surface-2:#1a1917;
+  --color-surface-offset:#1f1e1c;--color-divider:#2a2927;--color-border:#333230;
+  --color-text:#e8e6e2;--color-text-muted:#8a8884;--color-text-faint:#4a4947;
+  --color-primary:#a78bfa;--color-primary-hover:#8b5cf6;--color-primary-active:#7c3aed;
+  --color-primary-highlight:#2e1f5e;
+  --color-accent:#fbbf24;--color-accent-hover:#f59e0b;
+  --color-success:#34d399;--color-error:#f87171;
+  --color-step1:#a78bfa;--color-step2:#60a5fa;--color-step3:#34d399;
+  --color-step4:#f87171;--color-step5:#fbbf24;--color-step6:#f472b6;
+  --color-step7:#c084fc;--color-step8:#22d3ee;
+  --shadow-sm:0 1px 2px rgba(0,0,0,0.3);--shadow-md:0 4px 12px rgba(0,0,0,0.4);--shadow-lg:0 12px 32px rgba(0,0,0,0.6);
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{min-height:100dvh;font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text);background:var(--color-bg);line-height:1.6;transition:background var(--transition),color var(--transition)}
+img,svg{display:block;max-width:100%}
+button{cursor:pointer;background:none;border:none;font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+p{max-width:72ch;text-wrap:pretty}
+h1,h2,h3,h4{text-wrap:balance;line-height:1.2;font-family:var(--font-body)}
+
+/* Header */
+.header{position:sticky;top:0;z-index:100;background:oklch(from var(--color-bg) l c h / 0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--color-divider);padding:var(--space-3) var(--space-6);display:flex;align-items:center;justify-content:space-between;gap:var(--space-4)}
+.logo{display:flex;align-items:center;gap:var(--space-3)}
+.logo-icon{width:32px;height:32px;flex-shrink:0}
+.logo-text{font-size:var(--text-sm);font-weight:700;letter-spacing:-0.02em}
+.logo-sub{font-size:var(--text-xs);color:var(--color-text-muted);display:none}
+@media(min-width:600px){.logo-sub{display:block}}
+.header-right{display:flex;align-items:center;gap:var(--space-3)}
+.theme-toggle{width:36px;height:36px;border-radius:var(--radius-full);display:flex;align-items:center;justify-content:center;color:var(--color-text-muted);transition:color var(--transition),background var(--transition)}
+.theme-toggle:hover{color:var(--color-text);background:var(--color-surface-offset)}
+.badge-intern{font-size:var(--text-xs);padding:var(--space-1) var(--space-3);background:var(--color-primary-highlight);color:var(--color-primary);border-radius:var(--radius-full);font-weight:600;white-space:nowrap}
+
+/* Hero */
+.hero{padding:clamp(var(--space-12),8vw,var(--space-20)) var(--space-6);max-width:900px;margin:0 auto;text-align:center}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:var(--space-2);font-size:var(--text-xs);font-family:var(--font-mono);color:var(--color-primary);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:var(--space-5)}
+.eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--color-primary);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+.hero h1{font-size:var(--text-hero);font-weight:700;letter-spacing:-0.03em;margin-bottom:var(--space-5);background:linear-gradient(135deg,var(--color-primary),var(--color-step2),var(--color-step3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-desc{font-size:var(--text-lg);color:var(--color-text-muted);max-width:60ch;margin:0 auto var(--space-8)}
+.hero-meta{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:var(--space-3)}
+.meta-chip{display:flex;align-items:center;gap:var(--space-2);font-size:var(--text-xs);font-family:var(--font-mono);padding:var(--space-2) var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-full);color:var(--color-text-muted)}
+.meta-chip svg{width:14px;height:14px;flex-shrink:0}
+
+/* Progress bar */
+.progress-section{max-width:900px;margin:0 auto;padding:0 var(--space-6) var(--space-10)}
+.progress-label{display:flex;justify-content:space-between;font-size:var(--text-xs);font-family:var(--font-mono);color:var(--color-text-muted);margin-bottom:var(--space-2)}
+.progress-bar{height:6px;background:var(--color-surface-offset);border-radius:var(--radius-full);overflow:hidden}
+.progress-fill{height:100%;width:0%;border-radius:var(--radius-full);background:linear-gradient(90deg,var(--color-primary),var(--color-step2));transition:width 1.2s cubic-bezier(0.16,1,0.3,1)}
+
+/* Steps layout */
+.steps-container{max-width:960px;margin:0 auto;padding:0 var(--space-6) var(--space-20)}
+.steps-header{display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-10)}
+.steps-header h2{font-size:var(--text-xl);font-weight:700;letter-spacing:-0.02em}
+.steps-count{font-size:var(--text-xs);font-family:var(--font-mono);color:var(--color-text-faint);padding:var(--space-1) var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-full)}
+
+.step-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:var(--space-8);margin-bottom:var(--space-6);position:relative;overflow:hidden;transition:border-color var(--transition),box-shadow var(--transition)}
+.step-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--step-color, var(--color-primary));border-radius:var(--radius-xl) var(--radius-xl) 0 0}
+.step-card:hover{border-color:var(--color-primary);box-shadow:var(--shadow-md)}
+.step-header{display:flex;align-items:flex-start;gap:var(--space-4);margin-bottom:var(--space-6)}
+.step-num-wrap{display:flex;flex-direction:column;align-items:center;gap:var(--space-2);flex-shrink:0}
+.step-num{width:44px;height:44px;border-radius:var(--radius-full);background:oklch(from var(--step-color,var(--color-primary)) l c h / 0.15);color:var(--step-color,var(--color-primary));font-size:var(--text-sm);font-family:var(--font-mono);font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid oklch(from var(--step-color,var(--color-primary)) l c h / 0.3)}
+.step-label{font-size:var(--text-xs);font-family:var(--font-mono);color:var(--color-text-faint);text-transform:uppercase;letter-spacing:0.08em}
+.step-title-block h3{font-size:var(--text-lg);font-weight:700;letter-spacing:-0.02em;margin-bottom:var(--space-1)}
+.step-desc{font-size:var(--text-sm);color:var(--color-text-muted)}
+
+/* Content sections inside step */
+.step-body{display:grid;gap:var(--space-5)}
+.content-block{background:var(--color-surface-2);border:1px solid var(--color-divider);border-radius:var(--radius-lg);padding:var(--space-5)}
+.content-block-title{font-size:var(--text-xs);font-family:var(--font-mono);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-muted);margin-bottom:var(--space-3);display:flex;align-items:center;gap:var(--space-2)}
+.content-block-title svg{width:12px;height:12px}
+
+/* Task list */
+.task-list{display:flex;flex-direction:column;gap:var(--space-2)}
+.task-item{display:flex;align-items:flex-start;gap:var(--space-3);font-size:var(--text-sm);padding:var(--space-2) 0}
+.task-check{width:18px;height:18px;border-radius:var(--radius-sm);border:1.5px solid var(--color-border);background:var(--color-surface-offset);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background var(--transition),border-color var(--transition)}
+.task-check:hover{border-color:var(--step-color,var(--color-primary))}
+.task-check.checked{background:var(--step-color,var(--color-primary));border-color:var(--step-color,var(--color-primary))}
+.task-check.checked svg{display:block}
+.task-check svg{display:none;width:10px;height:10px;color:white}
+.task-text{color:var(--color-text);flex:1;transition:color var(--transition)}
+.task-text.done{color:var(--color-text-faint);text-decoration:line-through}
+
+/* Code blocks */
+.code-block{background:var(--color-bg);border:1px solid var(--color-divider);border-radius:var(--radius-md);overflow-x:auto}
+.code-block pre{padding:var(--space-4);font-family:var(--font-mono);font-size:var(--text-xs);color:var(--color-text-muted);white-space:pre;line-height:1.7}
+.code-kw{color:var(--color-primary)}
+.code-str{color:var(--color-step3)}
+.code-cm{color:var(--color-text-faint)}
+.code-fn{color:var(--color-accent)}
+.code-num{color:var(--color-step2)}
+
+/* Tech stack pills */
+.tech-pills{display:flex;flex-wrap:wrap;gap:var(--space-2)}
+.tech-pill{font-size:var(--text-xs);font-family:var(--font-mono);padding:var(--space-1) var(--space-3);background:var(--color-surface-offset);border:1px solid var(--color-border);border-radius:var(--radius-full);color:var(--color-text-muted)}
+.tech-pill.highlight{background:oklch(from var(--step-color,var(--color-primary)) l c h / 0.1);border-color:oklch(from var(--step-color,var(--color-primary)) l c h / 0.4);color:var(--step-color,var(--color-primary))}
+
+/* Two-column grid */
+.two-col{display:grid;grid-template-columns:1fr;gap:var(--space-4)}
+@media(min-width:640px){.two-col{grid-template-columns:1fr 1fr}}
+
+/* File tree */
+.file-tree{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--color-text-muted);line-height:2}
+.file-tree .dir{color:var(--color-accent)}
+.file-tree .file{color:var(--color-text)}
+.file-tree .desc{color:var(--color-text-faint);margin-left:var(--space-2)}
+
+/* Timeline connector */
+.timeline-dot{position:absolute;left:-22px;top:var(--space-8);width:12px;height:12px;border-radius:50%;background:var(--step-color,var(--color-primary));box-shadow:0 0 0 3px oklch(from var(--step-color,var(--color-primary)) l c h / 0.2)}
+.steps-timeline{position:relative;padding-left:var(--space-8);border-left:2px solid var(--color-divider);margin-left:var(--space-4)}
+
+/* Tip / note box */
+.tip-box{display:flex;gap:var(--space-3);padding:var(--space-4);background:oklch(from var(--color-primary) l c h / 0.07);border:1px solid oklch(from var(--color-primary) l c h / 0.25);border-radius:var(--radius-lg)}
+.tip-icon{flex-shrink:0;margin-top:2px;color:var(--color-primary)}
+.tip-icon svg{width:16px;height:16px}
+.tip-text{font-size:var(--text-sm);color:var(--color-text-muted)}
+.tip-text strong{color:var(--color-text)}
+
+/* Arch diagram */
+.arch-diagram{display:flex;flex-direction:column;align-items:center;gap:var(--space-3);padding:var(--space-4) 0}
+.arch-box{display:flex;align-items:center;justify-content:center;padding:var(--space-3) var(--space-6);background:var(--color-surface);border:1.5px solid var(--color-border);border-radius:var(--radius-lg);font-size:var(--text-xs);font-family:var(--font-mono);font-weight:600;color:var(--color-text);min-width:200px;text-align:center}
+.arch-box.accent{background:oklch(from var(--step-color,var(--color-primary)) l c h / 0.1);border-color:oklch(from var(--step-color,var(--color-primary)) l c h / 0.5);color:var(--step-color,var(--color-primary))}
+.arch-arrow{display:flex;align-items:center;justify-content:center;color:var(--color-text-faint)}
+.arch-arrow svg{width:16px;height:16px}
+@media(min-width:600px){
+  .arch-diagram{flex-direction:row;flex-wrap:wrap;justify-content:center}
+  .arch-arrow{transform:rotate(-90deg) scaleX(-1)}
+  .arch-arrow.horiz{transform:none}
+}
+
+/* Submission card */
+.submission-card{background:linear-gradient(135deg,oklch(from var(--color-primary) l c h / 0.08),oklch(from var(--color-step2) l c h / 0.08));border:1px solid oklch(from var(--color-primary) l c h / 0.3);border-radius:var(--radius-xl);padding:var(--space-8)}
+.submission-card h3{font-size:var(--text-xl);font-weight:700;margin-bottom:var(--space-6)}
+.submission-list{list-style:none;display:flex;flex-direction:column;gap:var(--space-4)}
+.submission-list li{display:flex;gap:var(--space-4);align-items:flex-start}
+.sub-icon{width:36px;height:36px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sub-icon svg{width:18px;height:18px}
+.sub-body strong{display:block;font-size:var(--text-sm);font-weight:600;margin-bottom:var(--space-1)}
+.sub-body span{font-size:var(--text-xs);color:var(--color-text-muted)}
+
+/* Section divider */
+.section-divider{border:none;border-top:1px solid var(--color-divider);margin:var(--space-8) 0}
+
+/* Overall progress stats */
+.stats-bar{max-width:960px;margin:0 auto;padding:0 var(--space-6) var(--space-8);display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:var(--space-4)}
+.stat-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-4)}
+.stat-val{font-size:var(--text-xl);font-weight:700;font-family:var(--font-mono);color:var(--color-primary)}
+.stat-label{font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-1)}
+
+/* Footer */
+.footer{border-top:1px solid var(--color-divider);padding:var(--space-6);text-align:center;font-size:var(--text-xs);color:var(--color-text-faint)}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">
+    <svg class="logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="32" height="32" rx="8" fill="oklch(0.4 0.2 280)"/>
+      <path d="M10 22V12l4-2v10" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="10" cy="22" r="2.5" fill="white"/>
+      <path d="M14 20V10l8-2v10" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="14" cy="20" r="2.5" fill="oklch(0.8 0.15 60)"/>
+      <circle cx="22" cy="18" r="2.5" fill="oklch(0.8 0.15 60)"/>
+    </svg>
+    <div>
+      <div class="logo-text">MusicGenAI</div>
+      <div class="logo-sub">CodeAlpha Internship · Project 1</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <span class="badge-intern">🎵 AI Internship</span>
+    <button class="theme-toggle" data-theme-toggle aria-label="Toggle theme">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    <span class="eyebrow-dot"></span>
+    Project Roadmap · 8 Steps
+  </div>
+  <h1>Music Generation<br>with AI</h1>
+  <p class="hero-desc">A complete step-by-step plan to build an LSTM-based AI that composes original classical piano music — from raw MIDI to a live Streamlit demo.</p>
+  <div class="hero-meta">
+    <span class="meta-chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Python · PyTorch / TF
+    </span>
+    <span class="meta-chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      ~3–4 weeks
+    </span>
+    <span class="meta-chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      GitHub + LinkedIn Submit
+    </span>
+    <span class="meta-chip">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><path d="M12 6v6l4 2"/></svg>
+      LSTM · MIDI · Streamlit
+    </span>
+  </div>
+</section>
+
+<!-- PROGRESS -->
+<div class="progress-section">
+  <div class="progress-label">
+    <span>Overall Project Progress</span>
+    <span id="progressText">0 / 8 steps</span>
+  </div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-card">
+    <div class="stat-val">8</div>
+    <div class="stat-label">Total Steps</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val">6+</div>
+    <div class="stat-label">Python Scripts</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val">LSTM</div>
+    <div class="stat-label">Core Model</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val">.mid</div>
+    <div class="stat-label">Output Format</div>
+  </div>
+</div>
+
+<!-- STEPS -->
+<div class="steps-container">
+  <div class="steps-header">
+    <h2>Project Steps</h2>
+    <span class="steps-count">8 milestones</span>
+  </div>
+
+  <div class="steps-timeline">
+
+    <!-- STEP 1 -->
+    <div class="step-card" style="--step-color:var(--color-step1)" data-step="1">
+      <div class="timeline-dot"></div>
+      <div class="step-header">
+        <div class="step-num-wrap">
+          <div class="step-num">01</div>
+          <div class="step-label">Scope</div>
+        </div>
+        <div class="step-title-block">
+          <h3>Clarify Scope &amp; Tech Stack</h3>
+          <p class="step-desc">Lock in your technology decisions before writing a single line of model code — this prevents painful refactors later.</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="content-block">
+          <div class="content-block-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            Decisions to Make
+          </div>
+          <div class="task-list">
+            <div class="task-item">
+              <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="task-text">Choose music style: <strong>Piano / Classical MIDI</strong> (recommended — largest open datasets)</span>
+            </div>
+            <div class="task-item">
+              <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="task-text">Choose DL framework: <strong>PyTorch</strong> or <strong>TensorFlow/Keras</strong></span>
+            </div>
+            <div class="task-item">
+              <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="task-text">Choose demo UI: <strong>Streamlit</strong> (fast) or Flask + HTML/JS</span>
+            </div>
+            <div class="task-item">
+              <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="task-text">Set up virtualenv and install core dependencies</span>
+            </div>
+          </div>
+        </div>
+        <div class="content-block">
+          <div class="content-block-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Tech Stack
+          </div>
+          <div class="tech-pills">
+            <span class="tech-pill highlight">Python 3.10+</span>
+            <span class="tech-pill highlight">PyTorch or TF</span>
+            <span class="tech-pill highlight">music21</span>
+            <span class="tech-pill">numpy</span>
+            <span class="tech-pill">pandas</span>
+            <span class="tech-pill">Streamlit</span>
+            <span class="tech-pill">fluidsynth (optional)</span>
+          </div>
+        </div>
+        <div class="code-block">
+          <pre><span class="code-cm"># requirements.txt</span>
+torch
+music21
+numpy
+pandas
+streamlit
+mido               <span class="code-cm"># MIDI I/O alternative</span>
+pretty-midi        <span class="code-cm"># optional: richer MIDI features</span>
+scipy              <span class="code-cm"># optional: audio export</span></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step-card" style="--step-color:var(--color-step2)" data-step="2">
+      <div class="timeline-dot"></div>
+      <div class="step-header">
+        <div class="step-num-wrap">
+          <div class="step-num">02</div>
+          <div class="step-label">Data</div>
+        </div>
+        <div class="step-title-block">
+          <h3>Dataset Collection</h3>
+          <p class="step-desc">Find, download, and organise open classical MIDI datasets. Start with a few hundred files, then scale.</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="two-col">
+          <div class="content-block">
+            <div class="content-block-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Recommended Datasets
+            </div>
+            <div class="task-list">
+              <div class="task-item">
+                <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="task-text"><strong>MAESTRO v3</strong> — 200 hrs classical piano (Google Magenta)</span>
+              </div>
+              <div class="task-item">
+                <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="task-text"><strong>Piano-MIDI.de</strong> — Free classical MIDI files</span>
+              </div>
+              <div class="task-item">
+                <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="task-text"><strong>Lakh MIDI</strong> — 176k MIDI files (multi-genre)</span>
+              </div>
+            </div>
+          </div>
+          <div class="content-block">
+            <div class="content-block-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+              Folder Structure
+            </div>
+            <div class="file-tree">
+              <div><span class="dir">data/</span></div>
+              <div>&nbsp;&nbsp;<span class="dir">raw/</span> <span class="desc">← downloaded .mid files</span></div>
+              <div>&nbsp;&nbsp;<span class="dir">processed/</span> <span class="desc">← .npy / .pkl</span></div>
+              <div>&nbsp;&nbsp;<span class="file">README.md</span> <span class="desc">← source + license</span></div>
+              <div><span class="dir">scripts/</span></div>
+              <div>&nbsp;&nbsp;<span class="file">download_or_prepare_dataset.py</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="code-block">
+          <pre><span class="code-cm"># scripts/download_or_prepare_dataset.py</span>
+<span class="code-kw">import</span> os, pathlib, music21
+
+DATA_DIR = pathlib.Path(<span class="code-str">"data/raw"</span>)
+midi_files = <span class="code-fn">list</span>(DATA_DIR.<span class="code-fn">glob</span>(<span class="code-str">"**/*.mid"</span>))
+
+<span class="code-fn">print</span>(<span class="code-str">f"Found {len(midi_files)} MIDI files"</span>)
+
+lengths = []
+<span class="code-kw">for</span> f <span class="code-kw">in</span> midi_files[:<span class="code-num">20</span>]:          <span class="code-cm"># sample first 20</span>
+    s = music21.converter.<span class="code-fn">parse</span>(f)
+    lengths.<span class="code-fn">append</span>(s.<span class="code-fn">duration</span>().quarterLength)
+
+<span class="code-fn">print</span>(<span class="code-str">f"Avg duration (quarters): {sum(lengths)/len(lengths):.1f}"</span>)</pre>
+        </div>
+        <div class="tip-box">
+          <div class="tip-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <p class="tip-text"><strong>Tip for GitHub/LinkedIn:</strong> Document the dataset source, license (CC BY 4.0 for MAESTRO), and how to reproduce the download in <code>data/README.md</code>. Recruiters notice this.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step-card" style="--step-color:var(--color-step3)" data-step="3">
+      <div class="timeline-dot"></div>
+      <div class="step-header">
+        <div class="step-num-wrap">
+          <div class="step-num">03</div>
+          <div class="step-label">Preprocess</div>
+        </div>
+        <div class="step-title-block">
+          <h3>Preprocessing with music21</h3>
+          <p class="step-desc">Convert raw MIDI into token sequences the model can learn from. Build a vocabulary of notes and chords.</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="content-block">
+          <div class="content-block-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Pipeline: preprocess.py
+          </div>
+          <div class="task-list">
+            <div class="task-item">
+              <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="task-text">Parse each MIDI with <code>music21.converter.parse()</code></span>
+            </div>
+            <div class="task-item">
+              <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="task-text">Extract <code>note.Note</code> and <code>chord.Chord</code> elements</span>
+            </div>
+            <div class="task-item">
+              <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="task-text">Encode to string tokens, e.g. <code>"C4"</code>, <code>"E4.G4.B4"</code></span>
+            </div>
+            <div class="task-item">
+              <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="task-text">Build <code>token2idx</code> / <code>idx2token</code> vocabulary dicts</span>
+            </div>
+            <div class="task-item">
+              <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="task-text">Slice into (input, target) sequence pairs of length 50–100</span>
+            </div>
+            <div class="task-item">
+              <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="task-text">Save to <code>data/processed/sequences.npy</code> and <code>vocab.pkl</code></span>
+            </div>
+          </div>
+        </div>
+        <div class="code-block">
+          <pre><span class="code-cm"># preprocess.py (key excerpt)</span>
+<span class="code-kw">from</span> music21 <span class="code-kw">import</span> converter, instrument, note, chord
+<span class="code-kw">import</span> pickle, numpy <span class="code-kw">as</span> np
+
+<span class="code-kw">def</span> <span class="code-fn">parse_midi</span>(filepath):
+    s = converter.<span class="code-fn">parse</span>(filepath)
+    part = instrument.<span class="code-fn">partitionByInstrument</span>(s)
+    notes_out = []
+    <span class="code-kw">for</span> element <span class="code-kw">in</span> (part.parts[<span class="code-num">0</span>] <span class="code-kw">if</span> part <span class="code-kw">else</span> s).<span class="code-fn">flat</span>.notes:
+        <span class="code-kw">if</span> <span class="code-fn">isinstance</span>(element, note.Note):
+            notes_out.<span class="code-fn">append</span>(<span class="code-fn">str</span>(element.pitch))
+        <span class="code-kw">elif</span> <span class="code-fn">isinstance</span>(element, chord.Chord):
+            notes_out.<span class="code-fn">append</span>(<span class="code-str">"."</span>.<span class="code-fn">join</span>(<span class="code-fn">str</span>(n) <span class="code-kw">for</span> n <span class="code-kw">in</span> element.normalOrder))
+    <span class="code-kw">return</span> notes_out
+
+SEQ_LEN = <span class="code-num">64</span>
+<span class="code-cm"># Build vocab + encode sequences → save .npy and .pkl</span></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step-card" style="--step-color:var(--color-step4)" data-step="4">
+      <div class="timeline-dot"></div>
+      <div class="step-header">
+        <div class="step-num-wrap">
+          <div class="step-num">04</div>
+          <div class="step-label">Model</div>
+        </div>
+        <div class="step-title-block">
+          <h3>Model Design (LSTM)</h3>
+          <p class="step-desc">Build a character-level LSTM that learns to predict the next musical token. Start simple, tune from there.</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="content-block">
+          <div class="content-block-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            Architecture
+          </div>
+          <div class="arch-diagram">
+            <div class="arch-box accent">Embedding Layer<br><small style="opacity:.7">vocab_size → embed_dim (128)</small></div>
+            <div class="arch-arrow horiz">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+            <div class="arch-box accent">LSTM Layer 1<br><small style="opacity:.7">hidden_size=256, dropout=0.3</small></div>
+            <div class="arch-arrow horiz">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+            <div class="arch-box accent">LSTM Layer 2<br><small style="opacity:.7">hidden_size=256</small></div>
+            <div class="arch-arrow horiz">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+            <div class="arch-box">Dense + Softmax<br><small style="opacity:.7">→ vocab_size</small></div>
+          </div>
+        </div>
+        <div class="code-block">
+          <pre><span class="code-cm"># model.py (PyTorch)</span>
+<span class="code-kw">import</span> torch.nn <span class="code-kw">as</span> nn
+
+<span class="code-kw">class</span> <span class="code-fn">MusicLSTM</span>(nn.Module):
+    <span class="code-kw">def</span> <span class="code-fn">__init__</span>(self, vocab_size, embed_dim=<span class="code-num">128</span>,
+                 hidden=<span class="code-num">256</span>, layers=<span class="code-num">2</span>, dropout=<span class="code-num">0.3</span>):
+        <span class="code-fn">super()</span>.<span class="code-fn">__init__</span>()
+        self.embed = nn.<span class="code-fn">Embedding</span>(vocab_size, embed_dim)
+        self.lstm  = nn.<span class="code-fn">LSTM</span>(embed_dim, hidden, layers,
+                              batch_first=<span class="code-kw">True</span>, dropout=dropout)
+        self.fc    = nn.<span class="code-fn">Linear</span>(hidden, vocab_size)
+
+    <span class="code-kw">def</span> <span class="code-fn">forward</span>(self, x, hidden=<span class="code-kw">None</span>):
+        x = self.<span class="code-fn">embed</span>(x)
+        x, hidden = self.<span class="code-fn">lstm</span>(x, hidden)
+        <span class="code-kw">return</span> self.<span class="code-fn">fc</span>(x), hidden</pre>
+        </div>
+        <div class="content-block">
+          <div class="content-block-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            Output Files
+          </div>
+          <div class="file-tree">
+            <div><span class="dir">models/</span></div>
+            <div>&nbsp;&nbsp;<span class="file">checkpoint_epoch10.pt</span></div>
+            <div>&nbsp;&nbsp;<span class="file">best_model.pt</span></div>
+            <div><span class="file">model.py</span> <span class="desc">← model class</span></div>
+            <div><span class="file">train.py</span> <span class="desc">← training loop + loss logging</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="step-card" style="--step-color:var(--color-step5)" data-step="5">
+      <div class="timeline-dot"></div>
+      <div class="step-header">
+        <div class="step-num-wrap">
+          <div class="step-num">05</div>
+          <div class="step-label">Train</div>
+        </div>
+        <div class="step-title-block">
+          <h3>Training &amp; Evaluation</h3>
+          <p class="step-desc">Train the model, track loss curves, and tune hyperparameters until generated sequences sound musical.</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="two-col">
+          <div class="content-block">
+            <div class="content-block-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              Hyperparameters to Tune
+            </div>
+            <div class="task-list">
+              <div class="task-item">
+                <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="task-text">Sequence length: 50, 64, 100</span>
+              </div>
+              <div class="task-item">
+                <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="task-text">Hidden size: 128, 256, 512</span>
+              </div>
+              <div class="task-item">
+                <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="task-text">Learning rate: 1e-3 → 1e-4 (decay)</span>
+              </div>
+              <div class="task-item">
+                <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="task-text">Batch size: 32, 64, 128</span>
+              </div>
+              <div class="task-item">
+                <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="task-text">Dropout: 0.2–0.5 (prevent overfitting)</span>
+              </div>
+            </div>
+          </div>
+          <div class="content-block">
+            <div class="content-block-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Training Checklist
+            </div>
+            <div class="task-list">
+              <div class="task-item">
+                <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="task-text">Sanity-check: overfit on 1 batch first</span>
+              </div>
+              <div class="task-item">
+                <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="task-text">Log train/val loss per epoch (matplotlib)</span>
+              </div>
+              <div class="task-item">
+                <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="task-text">Save best checkpoint via early stopping</span>
+              </div>
+              <div class="task-item">
+                <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="task-text">Add loss curve image to README</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tip-box">
+          <div class="tip-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <p class="tip-text"><strong>LinkedIn showcase:</strong> Put your loss curve chart and a table comparing runs (seq_len, hidden, loss) in your README. This visually demonstrates ML engineering discipline to internship recruiters.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6 -->
+    <div class="step-card" style="--step-color:var(--color-step6)" data-step="6">
+      <div class="timeline-dot"></div>
+      <div class="step-header">
+        <div class="step-num-wrap">
+          <div class="step-num">06</div>
+          <div class="step-label">Generate</div>
+        </div>
+        <div class="step-title-block">
+          <h3>Music Generation Pipeline</h3>
+          <p class="step-desc">Load the trained model, produce new token sequences, and convert them back to playable MIDI files.</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="code-block">
+          <pre><span class="code-cm"># generate.py</span>
+<span class="code-kw">import</span> torch
+<span class="code-kw">from</span> music21 <span class="code-kw">import</span> stream, note, chord, instrument
+
+<span class="code-kw">def</span> <span class="code-fn">generate</span>(model, seed_seq, vocab, n=<span class="code-num">200</span>, temperature=<span class="code-num">1.0</span>):
+    model.<span class="code-fn">eval</span>()
+    generated = <span class="code-fn">list</span>(seed_seq)
+    hidden = <span class="code-kw">None</span>
+    <span class="code-kw">with</span> torch.no_grad():
+        <span class="code-kw">for</span> _ <span class="code-kw">in</span> <span class="code-fn">range</span>(n):
+            x = torch.<span class="code-fn">tensor</span>([[vocab.token2idx[generated[-<span class="code-num">1</span>]]]])
+            out, hidden = <span class="code-fn">model</span>(x, hidden)
+            probs = (out[<span class="code-num">0</span>,-<span class="code-num">1</span>] / temperature).<span class="code-fn">softmax</span>(-<span class="code-num">1</span>)
+            idx = torch.<span class="code-fn">multinomial</span>(probs, <span class="code-num">1</span>).item()
+            generated.<span class="code-fn">append</span>(vocab.idx2token[idx])
+    <span class="code-kw">return</span> generated
+
+<span class="code-kw">def</span> <span class="code-fn">tokens_to_midi</span>(tokens, output_path=<span class="code-str">"outputs/generated.mid"</span>):
+    s = stream.<span class="code-fn">Stream</span>()
+    s.<span class="code-fn">append</span>(instrument.<span class="code-fn">Piano</span>())
+    offset = <span class="code-num">0</span>
+    <span class="code-kw">for</span> tok <span class="code-kw">in</span> tokens:
+        <span class="code-kw">if</span> <span class="code-str">"."</span> <span class="code-kw">in</span> tok:          <span class="code-cm"># chord</span>
+            ns = [note.<span class="code-fn">Note</span>(<span class="code-fn">int</span>(n)) <span class="code-kw">for</span> n <span class="code-kw">in</span> tok.<span class="code-fn">split</span>(<span class="code-str">"."</span>)]
+            c = chord.<span class="code-fn">Chord</span>(ns)
+            c.offset = offset; s.<span class="code-fn">append</span>(c)
+        <span class="code-kw">else</span>:                    <span class="code-cm"># single note</span>
+            n_ = note.<span class="code-fn">Note</span>(tok); n_.offset = offset; s.<span class="code-fn">append</span>(n_)
+        offset += <span class="code-num">0.5</span>
+    s.<span class="code-fn">write</span>(<span class="code-str">"midi"</span>, fp=output_path)</pre>
+        </div>
+        <div class="content-block">
+          <div class="content-block-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            Optional: MIDI → Audio
+          </div>
+          <div class="tech-pills">
+            <span class="tech-pill highlight">fluidsynth + soundfont</span>
+            <span class="tech-pill">pretty_midi → wav</span>
+            <span class="tech-pill">GarageBand / MuseScore</span>
+          </div>
+          <br>
+          <div class="file-tree">
+            <div><span class="dir">outputs/</span></div>
+            <div>&nbsp;&nbsp;<span class="file">generated_01.mid</span></div>
+            <div>&nbsp;&nbsp;<span class="file">generated_01.wav</span> <span class="desc">← optional audio</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7 -->
+    <div class="step-card" style="--step-color:var(--color-step7)" data-step="7">
+      <div class="timeline-dot"></div>
+      <div class="step-header">
+        <div class="step-num-wrap">
+          <div class="step-num">07</div>
+          <div class="step-label">Demo UI</div>
+        </div>
+        <div class="step-title-block">
+          <h3>Streamlit Demo App</h3>
+          <p class="step-desc">Build the UI that powers your LinkedIn video and internship submission. Streamlit is the fastest path to a polished demo.</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="code-block">
+          <pre><span class="code-cm"># app/app.py — Streamlit UI</span>
+<span class="code-kw">import</span> streamlit <span class="code-kw">as</span> st
+<span class="code-kw">from</span> generate <span class="code-kw">import</span> generate, tokens_to_midi
+<span class="code-kw">import</span> pickle, torch
+
+st.<span class="code-fn">set_page_config</span>(page_title=<span class="code-str">"🎵 AI Music Generator"</span>, layout=<span class="code-str">"centered"</span>)
+st.<span class="code-fn">title</span>(<span class="code-str">"🎵 AI Music Generator"</span>)
+st.<span class="code-fn">caption</span>(<span class="code-str">"LSTM-based classical piano composition · CodeAlpha Internship"</span>)
+
+temperature = st.<span class="code-fn">slider</span>(<span class="code-str">"Creativity (temperature)"</span>, <span class="code-num">0.5</span>, <span class="code-num">2.0</span>, <span class="code-num">1.0</span>)
+n_notes     = st.<span class="code-fn">slider</span>(<span class="code-str">"Notes to generate"</span>, <span class="code-num">50</span>, <span class="code-num">300</span>, <span class="code-num">150</span>)
+
+<span class="code-kw">if</span> st.<span class="code-fn">button</span>(<span class="code-str">"🎹 Generate Music"</span>, type=<span class="code-str">"primary"</span>):
+    <span class="code-kw">with</span> st.<span class="code-fn">spinner</span>(<span class="code-str">"Composing..."</span>):
+        tokens = <span class="code-fn">generate</span>(model, seed, vocab, n=n_notes, temperature=temperature)
+        path   = <span class="code-fn">tokens_to_midi</span>(tokens)
+    st.<span class="code-fn">success</span>(<span class="code-str">"✅ Composition complete!"</span>)
+    <span class="code-kw">with</span> <span class="code-fn">open</span>(path, <span class="code-str">"rb"</span>) <span class="code-kw">as</span> f:
+        st.<span class="code-fn">download_button</span>(<span class="code-str">"⬇ Download MIDI"</span>, f, file_name=<span class="code-str">"music.mid"</span>)
+    <span class="code-cm"># st.audio("outputs/generated.wav")  ← if you convert to .wav</span></pre>
+        </div>
+        <div class="two-col">
+          <div class="content-block">
+            <div class="content-block-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              UI Features
+            </div>
+            <div class="task-list">
+              <div class="task-item">
+                <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="task-text">Temperature slider (creativity control)</span>
+              </div>
+              <div class="task-item">
+                <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="task-text">Note count slider</span>
+              </div>
+              <div class="task-item">
+                <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="task-text">MIDI file download button</span>
+              </div>
+              <div class="task-item">
+                <div class="task-check" onclick="toggleTask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <span class="task-text">Embedded audio player (.wav optional)</span>
+              </div>
+            </div>
+          </div>
+          <div class="content-block">
+            <div class="content-block-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+              App Folder
+            </div>
+            <div class="file-tree">
+              <div><span class="dir">app/</span></div>
+              <div>&nbsp;&nbsp;<span class="file">app.py</span></div>
+              <div><span class="file">generate.py</span></div>
+              <div><span class="file">model.py</span></div>
+            </div>
+            <br>
+            <div class="tech-pills">
+              <span class="tech-pill highlight">streamlit run app/app.py</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 8 -->
+    <div class="step-card" style="--step-color:var(--color-step8)" data-step="8">
+      <div class="timeline-dot"></div>
+      <div class="step-header">
+        <div class="step-num-wrap">
+          <div class="step-num">08</div>
+          <div class="step-label">Submit</div>
+        </div>
+        <div class="step-title-block">
+          <h3>Documentation &amp; Submission</h3>
+          <p class="step-desc">Polish your GitHub repo, record your demo video, and submit via the CodeAlpha form.</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="submission-card">
+          <h3>📋 Submission Checklist</h3>
+          <ul class="submission-list">
+            <li>
+              <div class="sub-icon" style="background:oklch(from var(--color-step2) l c h / 0.15);color:var(--color-step2)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              </div>
+              <div class="sub-body">
+                <strong>GitHub Repository</strong>
+                <span>README with: problem statement · dataset · architecture · training details · usage. Folders: data/ models/ scripts/ app/ outputs/</span>
+              </div>
+            </li>
+            <li>
+              <div class="sub-icon" style="background:oklch(from var(--color-step6) l c h / 0.15);color:var(--color-step6)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+              </div>
+              <div class="sub-body">
+                <strong>LinkedIn Video (screen recording)</strong>
+                <span>Show UI → click Generate → music plays → explain LSTM architecture in plain language. 2–4 minutes.</span>
+              </div>
+            </li>
+            <li>
+              <div class="sub-icon" style="background:oklch(from var(--color-step5) l c h / 0.15);color:var(--color-step5)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
+              <div class="sub-body">
+                <strong>CodeAlpha Form Submission</strong>
+                <span>Share GitHub repo link + LinkedIn video URL in the submission form as per the PDF instructions.</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <hr class="section-divider">
+        <div class="content-block">
+          <div class="content-block-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            Final Repo Structure
+          </div>
+          <div class="file-tree">
+            <div><span class="dir">music-gen-ai/</span></div>
+            <div>&nbsp;&nbsp;<span class="file">README.md</span></div>
+            <div>&nbsp;&nbsp;<span class="file">requirements.txt</span></div>
+            <div>&nbsp;&nbsp;<span class="dir">data/</span><span class="desc"> raw/ processed/ README.md</span></div>
+            <div>&nbsp;&nbsp;<span class="dir">scripts/</span><span class="desc"> download_or_prepare_dataset.py</span></div>
+            <div>&nbsp;&nbsp;<span class="file">preprocess.py</span></div>
+            <div>&nbsp;&nbsp;<span class="file">model.py</span></div>
+            <div>&nbsp;&nbsp;<span class="file">train.py</span></div>
+            <div>&nbsp;&nbsp;<span class="file">generate.py</span></div>
+            <div>&nbsp;&nbsp;<span class="dir">app/</span><span class="desc"> app.py</span></div>
+            <div>&nbsp;&nbsp;<span class="dir">models/</span><span class="desc"> checkpoints</span></div>
+            <div>&nbsp;&nbsp;<span class="dir">outputs/</span><span class="desc"> .mid / .wav</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end timeline -->
+</div><!-- end steps-container -->
+
+<footer class="footer">
+  Built for Sanskar Deshpande · CodeAlpha AI Internship — Music Generation with AI
+</footer>
+
+<script>
+// Theme toggle
+(function(){
+  const t=document.querySelector('[data-theme-toggle]'),r=document.documentElement;
+  let d='dark';
+  r.setAttribute('data-theme',d);
+  t&&t.addEventListener('click',()=>{
+    d=d==='dark'?'light':'dark';
+    r.setAttribute('data-theme',d);
+    t.innerHTML=d==='dark'
+      ?'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'
+      :'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
+  });
+})();
+
+// Task toggle
+function toggleTask(el){
+  el.classList.toggle('checked');
+  const txt=el.nextElementSibling;
+  txt.classList.toggle('done');
+  updateProgress();
+}
+
+// Progress
+function updateProgress(){
+  const total=document.querySelectorAll('.task-check').length;
+  const done=document.querySelectorAll('.task-check.checked').length;
+  const pct=total?Math.round((done/total)*100):0;
+  document.getElementById('progressFill').style.width=pct+'%';
+  const steps=document.querySelectorAll('[data-step]').length;
+  const stepDone=Math.round((done/total)*steps);
+  document.getElementById('progressText').textContent=stepDone+' / '+steps+' steps';
+}
+
+// Animate progress on load
+setTimeout(()=>{
+  document.getElementById('progressFill').style.width='0%';
+},100);
+
+// Intersection observer for step cards
+const cards=document.querySelectorAll('.step-card');
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.style.opacity='1';
+      e.target.style.transform='translateY(0)';
+    }
+  });
+},{threshold:0.07});
+cards.forEach(c=>{
+  c.style.opacity='0';
+  c.style.transform='translateY(24px)';
+  c.style.transition='opacity 0.5s ease, transform 0.5s ease, border-color var(--transition), box-shadow var(--transition)';
+  obs.observe(c);
+});
+</script>
+</body>
+</html>
